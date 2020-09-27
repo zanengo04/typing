@@ -1,43 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta charset="utf-8">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- Facebook Open Graph meta tags -->
+    <meta name="author" content="Quoc Ngo">
+    <meta name="description" content="This website aims to aid the learning procress of those who want to study
+     Korean by providing all the necessary tools such as grammars, and other practices. We will guide you toward
+     the path of fluency as fast as possible.">
+    <meta property="og:image" content="https://i.pinimg.com/originals/76/fa/eb/76faeb9c818efdf76cf066aea3685a80.jpg">
+    <meta property="og:description" content="This website aims to aid the learning procress of those who want to study
+     Korean by providing all the necessary tools such as grammars, and other practices. We will guide you toward
+     the path of fluency as fast as possible.">
+    <meta property="og:title" content="Easy Korean">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@easykorean">
+    <meta name="twitter:creator" content="@quocngo">
+    <meta name="twitter:title" content="EasyKorean">
+    <meta name="twitter:description" content="This website aims to aid the learning procress of those who want to study
+     Korean by providing all the necessary tools such as grammars, and other practices. We will guide you toward
+     the path of fluency as fast as possible..">
+    <meta name="twitter:image" content="https://i.pinimg.com/originals/76/fa/eb/76faeb9c818efdf76cf066aea3685a80.jpg">
+
+    <title>My test page</title>
+
+    <!-- ================= Favicon ================== -->
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <script src="myScript.js" defer></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!--use to make side bar social media icons-->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <!--youtube button-->
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src ="../src/index.js" type = "text/jsx"></script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <link rel="shortcut icon" href=”%PUBLIC_URL%/icon.ico”>
   </head>
+
+
+
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" 
+                src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="07fFQvzB"></script>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
+  
 </html>
