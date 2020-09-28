@@ -149,7 +149,7 @@ function getRandom(min,max) {
   const textDisplayElement = document.getElementById('textDisplay')
   const textInputElement = document.getElementById('textInput')
   
-  const numWords = 100
+  const numWords = 10
   var vocab =[
       {word: '수건', keyStrokes: 5},
       {word: '학생', keyStrokes: 6},
@@ -210,8 +210,10 @@ function getRandom(min,max) {
   let keyStrokeCorrect= 0
   let keyStrokeWrong = 0
   textInputElement.addEventListener('input', () => {
-      // get all span type in an array
-      console.log(wordTyped)
+      let wordProgress = wordTyped/numWords*100
+      const progress = document.querySelector('.progressBar')
+
+      progress.style.width = `${wordProgress}%`
       const arrayText = document.getElementsByTagName("span")
       //array value is values of all that is typed in
       const arrayValue = textInputElement.value.split('')
@@ -272,6 +274,4 @@ function getRandom(min,max) {
     function wordLengthCalculator(wordLength) {
         return (wordLength-1)*40 + 10.48
     }
-  
-  
   
