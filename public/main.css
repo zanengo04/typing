@@ -62,3 +62,14 @@
   .wrong{
     color: red;
   }
+
+  .btn{
+    position: relative;
+    margin-left: 80px;
+    background-color: DodgerBlue;
+    border: none;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: RoyalBlue;
+  }
