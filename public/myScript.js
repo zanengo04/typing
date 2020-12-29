@@ -1,9 +1,17 @@
   const textDisplayElement = document.getElementById('textDisplay')
   const textInputElement = document.getElementById('textInput')
   
-  const numWords = 20
+  const numWords = 10
   var vocab =[
-      {word: '수건', keyStrokes: 5},
+      {word: 'box', keystroke:1},
+      {word: 'sand', keystroke:1},
+      {word: 'keyboard', keystroke:1},
+      {word: 'girl', keystroke:1},
+      {word: 'boy', keystroke:1},
+      {word: 'legend', keystroke:1},
+      {word: 'length', keystroke:1},
+      {word: 'width', keystroke:1},
+      /*{word: '수건', keyStrokes: 5},
       {word: '학생', keyStrokes: 6},
       {word: '없어', keyStrokes: 6},
       {word: '확실', keyStrokes: 7},
@@ -16,7 +24,7 @@
       {word: '학교', keyStrokes: 5},
       {word: '김치', keyStrokes: 5},
       {word: '감사', keyStrokes: 5},
-      {word: '야', keystroke: 2}
+      {word: '야', keystroke: 2}*/
   
   ]
   
@@ -24,9 +32,6 @@
   
   
   showWord(words)
-  function refreshPage(){
-    window.location.reload();
-}
   function showWord(words) {
       
       for (i=0; i< numWords; i++) {
@@ -115,7 +120,6 @@
           correct = false
           
       }
-      console.log(wordTyped)
       let wordProgress = wordTyped/numWords*100
       const progress = document.querySelector('.progressBar')
 
@@ -124,9 +128,30 @@
         $('#textDisplay').css('top','-=60px')
         rowLength = 886.007
       }
+      getTextWidth(arrayText[wordTyped].innerHTML)
+      console.log(arrayText[wordTyped].innerHTML)
     })
     
     function wordLengthCalculator(wordLength) {
         return (wordLength-1)*40 + 10.48
     }
-  
+		function getTextWidth(word) { 
+
+			text = document.createElement("span"); 
+			document.body.appendChild(text); 
+
+			text.style.font = "times new roman"; 
+			text.style.fontSize = 16 + "px"; 
+			text.style.height = 'auto'; 
+			text.style.width = 'auto'; 
+			text.style.position = 'absolute'; 
+			text.style.whiteSpace = 'no-wrap'; 
+			text.innerHTML = word; 
+
+			width = Math.ceil(text.clientWidth); 
+
+      console.log(width)
+    } 
+    
+    var language = document.getElementById('languageSelect').innerHTML
+    console.log(language)
