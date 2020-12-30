@@ -13,22 +13,25 @@
       {word: 'width', keystroke:5},
       {word: 'you', keystroke:3},
       {word: 'love', keystroke:4},
-      {word: 'young', keystroke:5},
-      {word: 'youth', keystroke:5},
-      /*{word: '수건', keyStrokes: 5},
-      {word: '학생', keyStrokes: 6},
-      {word: '없어', keyStrokes: 6},
-      {word: '확실', keyStrokes: 7},
-      {word: '학생', keyStrokes: 6},
-      {word: '버터', keyStrokes: 4},
-      {word: '연필', keyStrokes: 6},
-      {word: '지갑', keyStrokes: 5},
-      {word: '계단', keyStrokes: 5},
-      {word: '계란', keyStrokes: 5},
-      {word: '학교', keyStrokes: 5},
-      {word: '김치', keyStrokes: 5},
-      {word: '감사', keyStrokes: 5},
-      {word: '야', keystroke: 2}*/
+      {word: 'table', keystroke:5},
+      {word: 'desk', keystroke:4},
+      {word: 'camera', keystroke:6},
+      {word: 'hello', keystroke:5},
+      {word: 'water', keystroke:5},
+      {word: 'fire', keystroke:4},
+      {word: 'earth', keystroke:5},
+      {word: 'teeth', keystroke:5},
+      {word: 'tooth', keystroke:5},
+      {word: 'fairy', keystroke:5},
+      {word: 'tail', keystroke:4},
+      {word: 'cable', keystroke:5},
+      {word: 'laptop', keystroke:6},
+      {word: 'remote', keystroke:6},
+      {word: 'speaker', keystroke:7},
+      {word: 'paper', keystroke:5},
+      {word: 'clock', keystroke:5},
+      {word: 'time', keystroke:4},
+      {word: 'music', keystroke:5},
   
   ]
   
@@ -39,29 +42,22 @@
   function showWord(words) {
       
       for (i=0; i< numWords; i++) {
-          // Generate random array index
           const randIndex = Math.floor(Math.random() * words.length);
-  
-          // creat span and custom attribute, the content of the span changes average time it is looped
           var content ="";
           var span = document.createElement("span");
           span.setAttribute('wordNum', i+1)
           content += words[randIndex]+ ' ';
           span.innerHTML=content
-          // Output the list with comma seperating them
           textDisplayElement.appendChild(span)
   
       }
   }
-  
-   //Prevent white spaces
    textInputElement.addEventListener('keydown', function (event) {
       if (textInputElement.value.length === 0 && event.which === 32) {
           event.preventDefault();
       }
     });
   
-  // test white space
   function whiteSpace(){
       var patt = new RegExp(" ");
       var res = patt.test(textInputElement.value);
@@ -74,46 +70,36 @@ textInputElement.addEventListener("keydown", function(event){
   }
 });
   let wordTyped = 0
-  let rowLength = 886.007 //length of word display box
+  let rowLength = 886.007
   let keyStrokeCorrect= 0
   let keyStrokeWrong = 0
   var spaceLength = 11.1132813
   var wrongCharacter = 0
   var characterScore = 0
-  // correct character =1, wrong =0. Use to keep count and fix bug
+  
   textInputElement.addEventListener('input', () => {
 
       const arrayText = document.getElementsByTagName("span")
-      //array value is values of all that is typed in
       const arrayValue = textInputElement.value.split('')
     
       letterTyped = arrayValue.length
-      // -1 because index needs to start from 0 and length is always at least 1
       const inputCharacter = arrayValue[letterTyped-1]
-      //remove all styling if nothing has been typed
-      
-
-
       
       if (inputCharacter == null) {
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.remove('wrong')
-      // add incorrect if the user presses the space button and the word is incorrect
       } else if(whiteSpace(inputCharacter)&&
           textInputElement.value !== arrayText[wordTyped].innerHTML){
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.add('wrong')
           textInputElement.value = []
           //rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
-          //remove space to compare, and add quotation mark
           const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
           const index = words.findIndex(object => object === wordCompare);
           keyStrokeWrong += vocab[index].keyStrokes
           rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
           wordTyped += 1
           characterScore =0
-      //if word is correct then add correct class. Compare word to get index to find keystroke
-      //empty out the currently typed value for next comparision, reduce rowLength
       } else if(textInputElement.value === arrayText[wordTyped].innerHTML){
           arrayText[wordTyped].classList.add('correct')
           arrayText[wordTyped].classList.remove('wrong')
@@ -128,11 +114,12 @@ textInputElement.addEventListener("keydown", function(event){
             wordTyped += 1
           }
           characterScore = 0
-  
-      //add correct if everything is correct
-      } else if (inputCharacter === arrayText[wordTyped].innerHTML[letterTyped-1] && letterTyped==characterScore+1) {
-          arrayText[wordTyped].classList.add('correct')
-          arrayText[wordTyped].classList.remove('wrong')
+
+      } else if (inputCharacter === arrayText[wordTyped].innerHTML[letterTyped-1]) {
+          if ((letterTyped==characterScore+1 && backspaceCount ==0)|| (characterScore ==2 && letterTyped ==1)) {
+            arrayText[wordTyped].classList.add('correct')
+            arrayText[wordTyped].classList.remove('wrong')
+          }
           const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
           const index = words.findIndex(object => object === wordCompare);
           console.log(letterTyped)
@@ -170,7 +157,6 @@ textInputElement.addEventListener("keydown", function(event){
           console.log("charcter score=", characterScore)
 
       }
-      // this is to add incorrect while the user is typing
       else {
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.add('wrong')
@@ -193,7 +179,6 @@ textInputElement.addEventListener("keydown", function(event){
         return (wordLength-1)*40 + 10.48
     }
 		function getTextWidth(word) { 
-
       var c = document.getElementById("myCanvas");
       var ctx = c.getContext("2d");
       ctx.font = "40px Arial";
