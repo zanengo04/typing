@@ -1,7 +1,7 @@
   const textDisplayElement = document.getElementById('textDisplay')
   const textInputElement = document.getElementById('textInput')
   
-  const numWords = 10
+  const numWords = 20
   var vocab =[
       {word: 'box', keystroke:1},
       {word: 'sand', keystroke:1},
@@ -11,6 +11,10 @@
       {word: 'legend', keystroke:1},
       {word: 'length', keystroke:1},
       {word: 'width', keystroke:1},
+      {word: 'you', keystroke:1},
+      {word: 'love', keystroke:1},
+      {word: 'young', keystroke:1},
+      {word: 'youth', keystroke:1},
       /*{word: '수건', keyStrokes: 5},
       {word: '학생', keyStrokes: 6},
       {word: '없어', keyStrokes: 6},
@@ -63,12 +67,20 @@
       var res = patt.test(textInputElement.value);
       return res
     }
-  
-  
+var backspaceCount = 0
+textInputElement.addEventListener("keydown", function(event){
+  if(event.key === "Backspace") {
+    backspaceCount +=1
+  }
+});
   let wordTyped = 0
   let rowLength = 886.007 //length of word display box
   let keyStrokeCorrect= 0
   let keyStrokeWrong = 0
+  var spaceLength = 11.1132813
+  var wrongCharacter = 0
+  var characterScore = 0
+  // correct character =1, wrong =0. Use to keep count and fix bug
   textInputElement.addEventListener('input', () => {
 
       const arrayText = document.getElementsByTagName("span")
@@ -87,13 +99,14 @@
           textInputElement.value !== arrayText[wordTyped].innerHTML){
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.add('wrong')
-          wordTyped += 1
           textInputElement.value = []
-          rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
+          //rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
           //remove space to compare, and add quotation mark
           const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
           const index = words.findIndex(object => object === wordCompare);
           keyStrokeWrong += vocab[index].keyStrokes
+          rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
+          wordTyped += 1
       //if word is correct then add correct class. Compare word to get index to find keystroke
       //empty out the currently typed value for next comparision, reduce rowLength
       } else if(textInputElement.value === arrayText[wordTyped].innerHTML){
@@ -102,34 +115,37 @@
           const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
           const index = words.findIndex(object => object === wordCompare);
           keyStrokeCorrect += vocab[index].keyStrokes
-          wordTyped += 1
+
           textInputElement.value = []
           if(wordTyped !==numWords){
-            rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
+            //rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
+            rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
+            wordTyped += 1
           }
   
       //add correct if everything is correct
       } else if (inputCharacter === arrayText[wordTyped].innerHTML[letterTyped-1]) {
           arrayText[wordTyped].classList.add('correct')
           arrayText[wordTyped].classList.remove('wrong')
+          characterScore += 1
+          console.log("charcter score=", characterScore)
       }
       // this is to add incorrect while the user is typing
       else {
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.add('wrong')
           correct = false
-          
       }
       let wordProgress = wordTyped/numWords*100
       const progress = document.querySelector('.progressBar')
 
       progress.style.width = `${wordProgress}%`
-      if (rowLength + 10.48 < wordLengthCalculator(arrayText[wordTyped].innerHTML.length)){
+      //if (rowLength + 10.48 < wordLengthCalculator(arrayText[wordTyped].innerHTML.length)){
+      if (rowLength +spaceLength < getTextWidth(arrayText[wordTyped].innerHTML)){
         $('#textDisplay').css('top','-=60px')
         rowLength = 886.007
       }
       getTextWidth(arrayText[wordTyped].innerHTML)
-      console.log(arrayText[wordTyped].innerHTML)
     })
     
     function wordLengthCalculator(wordLength) {
@@ -137,21 +153,11 @@
     }
 		function getTextWidth(word) { 
 
-			text = document.createElement("span"); 
-			document.body.appendChild(text); 
-
-			text.style.font = "times new roman"; 
-			text.style.fontSize = 16 + "px"; 
-			text.style.height = 'auto'; 
-			text.style.width = 'auto'; 
-			text.style.position = 'absolute'; 
-			text.style.whiteSpace = 'no-wrap'; 
-			text.innerHTML = word; 
-
-			width = Math.ceil(text.clientWidth); 
-
-      console.log(width)
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.font = "40px Arial";
+      var txt = word
+      length = ctx.measureText(txt).width
+      return length
     } 
     
-    var language = document.getElementById('languageSelect').innerHTML
-    console.log(language)

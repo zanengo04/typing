@@ -4,6 +4,6 @@ const refreshPage = ()=>{
  }
 export default function Reload() {
     return (
-        <button class="btn" id='reload' onClick={refreshPage}><i class="fas fa-redo"></i></button>
+        <button className="btn" id='reload' onClick={refreshPage}><i className="fas fa-redo"></i></button>
     )
 }
