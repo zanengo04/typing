@@ -3,18 +3,18 @@
   
   const numWords = 20
   var vocab =[
-      {word: 'box', keystroke:1},
-      {word: 'sand', keystroke:1},
-      {word: 'keyboard', keystroke:1},
-      {word: 'girl', keystroke:1},
-      {word: 'boy', keystroke:1},
-      {word: 'legend', keystroke:1},
-      {word: 'length', keystroke:1},
-      {word: 'width', keystroke:1},
-      {word: 'you', keystroke:1},
-      {word: 'love', keystroke:1},
-      {word: 'young', keystroke:1},
-      {word: 'youth', keystroke:1},
+      {word: 'box', keystroke:3},
+      {word: 'sand', keystroke:4},
+      {word: 'keyboard', keystroke:8},
+      {word: 'girl', keystroke:4},
+      {word: 'boy', keystroke:3},
+      {word: 'legend', keystroke:6},
+      {word: 'length', keystroke:6},
+      {word: 'width', keystroke:5},
+      {word: 'you', keystroke:3},
+      {word: 'love', keystroke:4},
+      {word: 'young', keystroke:5},
+      {word: 'youth', keystroke:5},
       /*{word: '수건', keyStrokes: 5},
       {word: '학생', keyStrokes: 6},
       {word: '없어', keyStrokes: 6},
@@ -91,6 +91,10 @@ textInputElement.addEventListener("keydown", function(event){
       // -1 because index needs to start from 0 and length is always at least 1
       const inputCharacter = arrayValue[letterTyped-1]
       //remove all styling if nothing has been typed
+      
+
+
+      
       if (inputCharacter == null) {
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.remove('wrong')
@@ -107,6 +111,7 @@ textInputElement.addEventListener("keydown", function(event){
           keyStrokeWrong += vocab[index].keyStrokes
           rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
           wordTyped += 1
+          characterScore =0
       //if word is correct then add correct class. Compare word to get index to find keystroke
       //empty out the currently typed value for next comparision, reduce rowLength
       } else if(textInputElement.value === arrayText[wordTyped].innerHTML){
@@ -122,13 +127,48 @@ textInputElement.addEventListener("keydown", function(event){
             rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
             wordTyped += 1
           }
+          characterScore = 0
   
       //add correct if everything is correct
-      } else if (inputCharacter === arrayText[wordTyped].innerHTML[letterTyped-1]) {
+      } else if (inputCharacter === arrayText[wordTyped].innerHTML[letterTyped-1] && letterTyped==characterScore+1) {
           arrayText[wordTyped].classList.add('correct')
           arrayText[wordTyped].classList.remove('wrong')
-          characterScore += 1
+          const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
+          const index = words.findIndex(object => object === wordCompare);
+          console.log(letterTyped)
+          if ( vocab[index].keystroke > letterTyped){
+              characterScore += 1
+              if (letterTyped ==1 && backspaceCount >0){
+                characterScore =1
+                backspaceCount =0
+                console.log(characterScore)
+              }
+              else if (characterScore >1 && backspaceCount >0) {
+                characterScore -= 2
+                if(letterTyped>characterScore){
+                  characterScore +=1
+                }
+                backspaceCount = 0
+                console.log("letter typed=", letterTyped)
+                console.log("charcter score=", characterScore)
+              }
+              
+          } else if (vocab[index].keystroke == letterTyped && backspaceCount ==0){
+            characterScore += 1
+              if (letterTyped ==0 && backspaceCount >0){
+                characterScore =0
+                backspaceCount =0
+                console.log(letterTyped)
+                console.log(characterScore)
+              }
+              else if (characterScore >1 && backspaceCount >0) {
+                backspaceCount = 0
+                console.log("letter typed=", letterTyped)
+                console.log("charcter score=", characterScore)
+              }
+          }
           console.log("charcter score=", characterScore)
+
       }
       // this is to add incorrect while the user is typing
       else {
@@ -148,6 +188,7 @@ textInputElement.addEventListener("keydown", function(event){
       getTextWidth(arrayText[wordTyped].innerHTML)
     })
     
+
     function wordLengthCalculator(wordLength) {
         return (wordLength-1)*40 + 10.48
     }
