@@ -1,8 +1,26 @@
+
   const textDisplayElement = document.getElementById('textDisplay')
   const textInputElement = document.getElementById('textInput')
-  
   const numWords = 20
-  var vocab =[
+  const api = 'https://random-word-api.herokuapp.com/word?number='
+  const vocabulary = async () => {
+    try {
+      const {data} = await axios.get(`${api}${numWords}`)
+      return data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const fetchWords = async () =>{
+    try {
+      showWord(await vocabulary())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  fetchWords()
+  /*[
       {word: 'box', keystroke:3},
       {word: 'sand', keystroke:4},
       {word: 'keyboard', keystroke:8},
@@ -33,12 +51,9 @@
       {word: 'time', keystroke:4},
       {word: 'music', keystroke:5},
   
-  ]
+  ]*/
   
-  var words = vocab.map(vocabElement => vocabElement.word)
-  
-  
-  showWord(words)
+
   function showWord(words) {
       
       for (i=0; i< numWords; i++) {
@@ -81,7 +96,8 @@ textInputElement.addEventListener("keydown", function(event){
 
       const arrayText = document.getElementsByTagName("span")
       const arrayValue = textInputElement.value.split('')
-    
+      var currentWord = arrayText[wordTyped].innerHTML
+      var keystroke = currentWord.length-1
       letterTyped = arrayValue.length
       const inputCharacter = arrayValue[letterTyped-1]
       
@@ -89,46 +105,39 @@ textInputElement.addEventListener("keydown", function(event){
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.remove('wrong')
       } else if(whiteSpace(inputCharacter)&&
-          textInputElement.value !== arrayText[wordTyped].innerHTML){
+          textInputElement.value !== currentWord){
           arrayText[wordTyped].classList.remove('correct')
           arrayText[wordTyped].classList.add('wrong')
           textInputElement.value = []
-          //rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
-          const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
-          const index = words.findIndex(object => object === wordCompare);
-          keyStrokeWrong += vocab[index].keyStrokes
-          rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
+          //rowLength -= wordLengthCalculator(currentWord.length)
+          keyStrokeWrong += keystroke
+          rowLength -= getTextWidth(currentWord)
           wordTyped += 1
           characterScore =0
-      } else if(textInputElement.value === arrayText[wordTyped].innerHTML){
+      } else if(textInputElement.value === currentWord){
           arrayText[wordTyped].classList.add('correct')
           arrayText[wordTyped].classList.remove('wrong')
-          const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
-          const index = words.findIndex(object => object === wordCompare);
-          keyStrokeCorrect += vocab[index].keyStrokes
+          keyStrokeCorrect += keystroke
 
           textInputElement.value = []
           if(wordTyped !==numWords){
-            //rowLength -= wordLengthCalculator(arrayText[wordTyped].innerHTML.length)
-            rowLength -= getTextWidth(arrayText[wordTyped].innerHTML)
+            //rowLength -= wordLengthCalculator(currentWord.length)
+            rowLength -= getTextWidth(currentWord)
             wordTyped += 1
           }
           characterScore = 0
 
-      } else if (inputCharacter === arrayText[wordTyped].innerHTML[letterTyped-1]) {
-          if ((letterTyped==characterScore+1 && backspaceCount ==0)|| (characterScore ==2 && letterTyped ==1)) {
+      } else if (inputCharacter === currentWord[letterTyped-1]) {
+          if ((letterTyped==characterScore+1 && backspaceCount ==0)|| (characterScore ==2 && letterTyped ==1)|| (characterScore == letterTyped)) {
             arrayText[wordTyped].classList.add('correct')
             arrayText[wordTyped].classList.remove('wrong')
           }
-          const wordCompare = arrayText[wordTyped].innerHTML.replace(/\s+/g,'')
-          const index = words.findIndex(object => object === wordCompare);
-          console.log(letterTyped)
-          if ( vocab[index].keystroke > letterTyped){
+          if ( keystroke > letterTyped){
               characterScore += 1
               if (letterTyped ==1 && backspaceCount >0){
                 characterScore =1
                 backspaceCount =0
-                console.log(characterScore)
+                console.log('character score=',characterScore)
               }
               else if (characterScore >1 && backspaceCount >0) {
                 characterScore -= 2
@@ -140,7 +149,7 @@ textInputElement.addEventListener("keydown", function(event){
                 console.log("charcter score=", characterScore)
               }
               
-          } else if (vocab[index].keystroke == letterTyped && backspaceCount ==0){
+          } else if (keystroke == letterTyped && backspaceCount ==0){
             characterScore += 1
               if (letterTyped ==0 && backspaceCount >0){
                 characterScore =0
@@ -154,7 +163,6 @@ textInputElement.addEventListener("keydown", function(event){
                 console.log("charcter score=", characterScore)
               }
           }
-          console.log("charcter score=", characterScore)
 
       }
       else {
@@ -166,12 +174,12 @@ textInputElement.addEventListener("keydown", function(event){
       const progress = document.querySelector('.progressBar')
 
       progress.style.width = `${wordProgress}%`
-      //if (rowLength + 10.48 < wordLengthCalculator(arrayText[wordTyped].innerHTML.length)){
-      if (rowLength +spaceLength < getTextWidth(arrayText[wordTyped].innerHTML)){
+      //if (rowLength + 10.48 < wordLengthCalculator(currentWord.length)){
+      if (rowLength +spaceLength < getTextWidth(currentWord)){
         $('#textDisplay').css('top','-=60px')
         rowLength = 886.007
       }
-      getTextWidth(arrayText[wordTyped].innerHTML)
+      getTextWidth(currentWord)
     })
     
 
