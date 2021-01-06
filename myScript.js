@@ -97,6 +97,7 @@ textInputElement.addEventListener("keydown", function(event){
       const arrayText = document.getElementsByTagName("span")
       const arrayValue = textInputElement.value.split('')
       var currentWord = arrayText[wordTyped].innerHTML
+
       var keystroke = currentWord.length-1
       letterTyped = arrayValue.length
       const inputCharacter = arrayValue[letterTyped-1]
@@ -113,6 +114,8 @@ textInputElement.addEventListener("keydown", function(event){
           keyStrokeWrong += keystroke
           rowLength -= getTextWidth(currentWord)
           wordTyped += 1
+          console.log(rowLength)
+          if (wordTyped < numWords){newRow(arrayText[wordTyped].innerHTML)}
           characterScore =0
       } else if(textInputElement.value === currentWord){
           arrayText[wordTyped].classList.add('correct')
@@ -124,6 +127,8 @@ textInputElement.addEventListener("keydown", function(event){
             //rowLength -= wordLengthCalculator(currentWord.length)
             rowLength -= getTextWidth(currentWord)
             wordTyped += 1
+            console.log(rowLength)
+            if (wordTyped < numWords){newRow(arrayText[wordTyped].innerHTML)}
           }
           characterScore = 0
 
@@ -137,7 +142,6 @@ textInputElement.addEventListener("keydown", function(event){
               if (letterTyped ==1 && backspaceCount >0){
                 characterScore =1
                 backspaceCount =0
-                console.log('character score=',characterScore)
               }
               else if (characterScore >1 && backspaceCount >0) {
                 characterScore -= 2
@@ -145,8 +149,6 @@ textInputElement.addEventListener("keydown", function(event){
                   characterScore +=1
                 }
                 backspaceCount = 0
-                console.log("letter typed=", letterTyped)
-                console.log("charcter score=", characterScore)
               }
               
           } else if (keystroke == letterTyped && backspaceCount ==0){
@@ -154,13 +156,9 @@ textInputElement.addEventListener("keydown", function(event){
               if (letterTyped ==0 && backspaceCount >0){
                 characterScore =0
                 backspaceCount =0
-                console.log(letterTyped)
-                console.log(characterScore)
               }
               else if (characterScore >1 && backspaceCount >0) {
                 backspaceCount = 0
-                console.log("letter typed=", letterTyped)
-                console.log("charcter score=", characterScore)
               }
           }
 
@@ -174,12 +172,18 @@ textInputElement.addEventListener("keydown", function(event){
       const progress = document.querySelector('.progressBar')
 
       progress.style.width = `${wordProgress}%`
+      const progress2 = document.querySelector('.progressBar2')
+      progress2.style.width = `${wordProgress}%`
       //if (rowLength + 10.48 < wordLengthCalculator(currentWord.length)){
-      if (rowLength +spaceLength < getTextWidth(currentWord)){
-        $('#textDisplay').css('top','-=60px')
-        rowLength = 886.007
+      function newRow(word){
+        
+          
+          if (rowLength +spaceLength < getTextWidth(word)){
+            $('#textDisplay').css('top','-=60px')
+            
+            rowLength = 886.007
+          }
       }
-      getTextWidth(currentWord)
     })
     
 
@@ -192,6 +196,7 @@ textInputElement.addEventListener("keydown", function(event){
       ctx.font = "40px Arial";
       var txt = word
       length = ctx.measureText(txt).width
+      console.log(word,length)
       return length
     } 
     
