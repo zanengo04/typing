@@ -114,7 +114,6 @@ textInputElement.addEventListener("keydown", function(event){
           keyStrokeWrong += keystroke
           rowLength -= getTextWidth(currentWord)
           wordTyped += 1
-          console.log(rowLength)
           if (wordTyped < numWords){newRow(arrayText[wordTyped].innerHTML)}
           characterScore =0
       } else if(textInputElement.value === currentWord){
@@ -127,7 +126,6 @@ textInputElement.addEventListener("keydown", function(event){
             //rowLength -= wordLengthCalculator(currentWord.length)
             rowLength -= getTextWidth(currentWord)
             wordTyped += 1
-            console.log(rowLength)
             if (wordTyped < numWords){newRow(arrayText[wordTyped].innerHTML)}
           }
           characterScore = 0
@@ -196,7 +194,6 @@ textInputElement.addEventListener("keydown", function(event){
       ctx.font = "40px Arial";
       var txt = word
       length = ctx.measureText(txt).width
-      console.log(word,length)
       return length
     } 
     
